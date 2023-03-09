@@ -1,0 +1,873 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This api written by Asif Tunga Mubarek.",
+        "title": "GeoLocation Project",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "Asif Tunga Mubarek",
+            "email": "asiftunga@hotmail.com"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:3030",
+    "basePath": "/",
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "description": "Login Function",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login",
+                "parameters": [
+                    {
+                        "description": "Login",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entities.Login"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ResponseWrapper"
+                        }
+                    },
+                    "502": {
+                        "description": "Bad Gateway",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ErrorResponseWrapper"
+                        }
+                    }
+                }
+            }
+        },
+        "/create/getinfofrompinid": {
+            "post": {
+                "description": "according to the pin information, the information of the polygons in which the pin is located inside of polygons",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "InsideInfo"
+                ],
+                "summary": "get polygons information that the pin is in",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "JWT authorization token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Request body",
+                        "name": "Pin_Id",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entities.Inside1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ResponseWrapper"
+                        }
+                    },
+                    "502": {
+                        "description": "Bad Gateway",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ErrorResponseWrapper"
+                        }
+                    }
+                }
+            }
+        },
+        "/create/getinfofrompolid": {
+            "post": {
+                "description": "get pin information contained within a particular polygon",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "InsideInfo"
+                ],
+                "summary": "get pin information that inside the polygon",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "JWT authorization token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Request body",
+                        "name": "Polygon_Id",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entities.Inside2"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ResponseWrapper"
+                        }
+                    },
+                    "502": {
+                        "description": "Bad Gateway",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ErrorResponseWrapper"
+                        }
+                    }
+                }
+            }
+        },
+        "/create/inside": {
+            "post": {
+                "description": "Insert inside table  With Polygon ID and Pin ID with User ID from request headers",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "InsideInfo"
+                ],
+                "summary": "Insert inside table  With Polygon ID and Pin ID with User ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "JWT authorization token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Request body",
+                        "name": "PolAndPinInfo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entities.Inside"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ResponseWrapper"
+                        }
+                    },
+                    "502": {
+                        "description": "Bad Gateway",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ErrorResponseWrapper"
+                        }
+                    }
+                }
+            }
+        },
+        "/create/pin": {
+            "post": {
+                "description": "Create Pins with expected request info",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pins"
+                ],
+                "summary": "Create Pin With User ID and Pin information",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "JWT authorization token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Request body",
+                        "name": "Pin_info",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entities.Pin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ResponseWrapper"
+                        }
+                    },
+                    "502": {
+                        "description": "Bad Gateway",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ErrorResponseWrapper"
+                        }
+                    }
+                }
+            }
+        },
+        "/create/polygon": {
+            "post": {
+                "description": "Create Polygon with expected request info",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Polygons"
+                ],
+                "summary": "Create Polygon With User ID and Polygon",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "JWT authorization token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Request body",
+                        "name": "Polygon_info",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entities.Polygon"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ResponseWrapper"
+                        }
+                    },
+                    "502": {
+                        "description": "Bad Gateway",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ErrorResponseWrapper"
+                        }
+                    }
+                }
+            }
+        },
+        "/delete/deleteallpins": {
+            "delete": {
+                "description": "Delete all pins with pin ID and User ID from header",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pins"
+                ],
+                "summary": "Delete All Pins With User ID and Pin ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "JWT authorization token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ResponseWrapper"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ErrorResponseWrapper"
+                        }
+                    }
+                }
+            }
+        },
+        "/delete/onepoint": {
+            "delete": {
+                "description": "Delete spesific Polygon with Polygon ID and User ID from header",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Polygons"
+                ],
+                "summary": "Delete Polygon one coordinate With User ID and Polygon ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "JWT authorization token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Request body",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entities.DeletePolygonOnePoint1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ResponseWrapper"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ErrorResponseWrapper"
+                        }
+                    }
+                }
+            }
+        },
+        "/delete/pin": {
+            "delete": {
+                "description": "Delete spesific pin with pin ID and User ID from header",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pins"
+                ],
+                "summary": "Delete Pin With User ID and Pin ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "JWT authorization token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Request body",
+                        "name": "Pin_Id",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entities.DeletePolygonOnePoint"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ResponseWrapper"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ErrorResponseWrapper"
+                        }
+                    }
+                }
+            }
+        },
+        "/delete/polygon": {
+            "delete": {
+                "description": "Delete spesific Polygon with Polygon ID and User ID from header",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Polygons"
+                ],
+                "summary": "Delete Polygon With User ID and Polygon ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "JWT authorization token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Request body",
+                        "name": "Polygon_Id",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entities.DeletePolygonOnePoint"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ResponseWrapper"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ErrorResponseWrapper"
+                        }
+                    }
+                }
+            }
+        },
+        "/get/pins": {
+            "get": {
+                "description": "Get a list of pins for the specified user ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pins"
+                ],
+                "summary": "Get array of pins by user ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "JWT authorization token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/entities.Pin2"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {}
+                    }
+                }
+            }
+        },
+        "/get/polygons": {
+            "get": {
+                "description": "Get a list of polygons for the specified user ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Polygons"
+                ],
+                "summary": "Get polygons by user ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "JWT authorization token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/entities.Polygon2"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {}
+                    }
+                }
+            }
+        },
+        "/update/pin": {
+            "put": {
+                "description": "Update spesific Pin with Pin infos and User ID from header",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Pins"
+                ],
+                "summary": "Update Pin With User ID and Polygon",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "JWT authorization token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Request body",
+                        "name": "Pin_info",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entities.Pin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ResponseWrapper"
+                        }
+                    },
+                    "502": {
+                        "description": "Bad Gateway",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ErrorResponseWrapper"
+                        }
+                    }
+                }
+            }
+        },
+        "/update/polygon": {
+            "put": {
+                "description": "Update spesific Polygon with Polygon infos and User ID from header",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Polygons"
+                ],
+                "summary": "Update Polygon With User ID and Polygon",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "JWT authorization token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Request body",
+                        "name": "Polygon_info",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entities.Polygon"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ResponseWrapper"
+                        }
+                    },
+                    "502": {
+                        "description": "Bad Gateway",
+                        "schema": {
+                            "$ref": "#/definitions/entities.ErrorResponseWrapper"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "entities.Coordinate": {
+            "type": "object",
+            "properties": {
+                "lat": {
+                    "type": "number"
+                },
+                "lng": {
+                    "type": "number"
+                }
+            }
+        },
+        "entities.DeletePolygonOnePoint": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "entities.DeletePolygonOnePoint1": {
+            "type": "object",
+            "properties": {
+                "coordinates": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entities.Coordinate"
+                    }
+                },
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "entities.ErrorResponseWrapper": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "message": {
+                    "type": "string",
+                    "example": "error message (islem basarili degil)"
+                },
+                "statuscode": {
+                    "type": "integer",
+                    "example": 400
+                }
+            }
+        },
+        "entities.Inside": {
+            "type": "object",
+            "properties": {
+                "pinid": {
+                    "type": "string"
+                },
+                "polid": {
+                    "type": "string"
+                }
+            }
+        },
+        "entities.Inside1": {
+            "type": "object",
+            "properties": {
+                "pinid": {
+                    "type": "string"
+                }
+            }
+        },
+        "entities.Inside2": {
+            "type": "object",
+            "properties": {
+                "polid": {
+                    "type": "string"
+                }
+            }
+        },
+        "entities.Login": {
+            "type": "object",
+            "properties": {
+                "user_email": {
+                    "type": "string"
+                },
+                "user_pass": {
+                    "type": "string"
+                }
+            }
+        },
+        "entities.Piin": {
+            "type": "object",
+            "properties": {
+                "lat": {
+                    "type": "number"
+                },
+                "lng": {
+                    "type": "number"
+                }
+            }
+        },
+        "entities.Pin": {
+            "type": "object",
+            "properties": {
+                "comment": {
+                    "type": "string"
+                },
+                "coordinates": {
+                    "description": "two dimensional array for postgresql",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entities.Piin"
+                    }
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "entities.Pin2": {
+            "type": "object",
+            "properties": {
+                "comment": {
+                    "type": "string"
+                },
+                "coordinates": {
+                    "type": "array",
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "entities.Polygon": {
+            "type": "object",
+            "properties": {
+                "comment": {
+                    "type": "string"
+                },
+                "coordinates": {
+                    "description": "two dimensional array for postgresql",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entities.Coordinate"
+                    }
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "entities.Polygon2": {
+            "type": "object",
+            "properties": {
+                "comment": {
+                    "type": "string"
+                },
+                "coordinates": {
+                    "type": "array",
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "entities.ResponseWrapper": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "object"
+                },
+                "error": {
+                    "type": "boolean",
+                    "example": false
+                },
+                "message": {
+                    "type": "string",
+                    "example": "islem basarili"
+                },
+                "statuscode": {
+                    "type": "integer",
+                    "example": 200
+                }
+            }
+        }
+    }
+}

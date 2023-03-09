@@ -1,0 +1,578 @@
+basePath: /
+definitions:
+  entities.Coordinate:
+    properties:
+      lat:
+        type: number
+      lng:
+        type: number
+    type: object
+  entities.DeletePolygonOnePoint:
+    properties:
+      id:
+        type: string
+    type: object
+  entities.DeletePolygonOnePoint1:
+    properties:
+      coordinates:
+        items:
+          $ref: '#/definitions/entities.Coordinate'
+        type: array
+      id:
+        type: string
+    type: object
+  entities.ErrorResponseWrapper:
+    properties:
+      error:
+        example: true
+        type: boolean
+      message:
+        example: error message (islem basarili degil)
+        type: string
+      statuscode:
+        example: 400
+        type: integer
+    type: object
+  entities.Inside:
+    properties:
+      pinid:
+        type: string
+      polid:
+        type: string
+    type: object
+  entities.Inside1:
+    properties:
+      pinid:
+        type: string
+    type: object
+  entities.Inside2:
+    properties:
+      polid:
+        type: string
+    type: object
+  entities.Login:
+    properties:
+      user_email:
+        type: string
+      user_pass:
+        type: string
+    type: object
+  entities.Piin:
+    properties:
+      lat:
+        type: number
+      lng:
+        type: number
+    type: object
+  entities.Pin:
+    properties:
+      comment:
+        type: string
+      coordinates:
+        description: two dimensional array for postgresql
+        items:
+          $ref: '#/definitions/entities.Piin'
+        type: array
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  entities.Pin2:
+    properties:
+      comment:
+        type: string
+      coordinates:
+        items:
+          items:
+            type: number
+          type: array
+        type: array
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  entities.Polygon:
+    properties:
+      comment:
+        type: string
+      coordinates:
+        description: two dimensional array for postgresql
+        items:
+          $ref: '#/definitions/entities.Coordinate'
+        type: array
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+    type: object
+  entities.Polygon2:
+    properties:
+      comment:
+        type: string
+      coordinates:
+        items:
+          items:
+            type: number
+          type: array
+        type: array
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  entities.ResponseWrapper:
+    properties:
+      data:
+        type: object
+      error:
+        example: false
+        type: boolean
+      message:
+        example: islem basarili
+        type: string
+      statuscode:
+        example: 200
+        type: integer
+    type: object
+host: localhost:3030
+info:
+  contact:
+    email: asiftunga@hotmail.com
+    name: Asif Tunga Mubarek
+  description: This api written by Asif Tunga Mubarek.
+  termsOfService: http://swagger.io/terms/
+  title: GeoLocation Project
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Login Function
+      parameters:
+      - description: Login
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/entities.Login'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.ResponseWrapper'
+        "502":
+          description: Bad Gateway
+          schema:
+            $ref: '#/definitions/entities.ErrorResponseWrapper'
+      summary: Login
+      tags:
+      - Auth
+  /create/getinfofrompinid:
+    post:
+      consumes:
+      - application/json
+      description: according to the pin information, the information of the polygons
+        in which the pin is located inside of polygons
+      parameters:
+      - description: JWT authorization token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: Pin_Id
+        required: true
+        schema:
+          $ref: '#/definitions/entities.Inside1'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.ResponseWrapper'
+        "502":
+          description: Bad Gateway
+          schema:
+            $ref: '#/definitions/entities.ErrorResponseWrapper'
+      summary: get polygons information that the pin is in
+      tags:
+      - InsideInfo
+  /create/getinfofrompolid:
+    post:
+      consumes:
+      - application/json
+      description: get pin information contained within a particular polygon
+      parameters:
+      - description: JWT authorization token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: Polygon_Id
+        required: true
+        schema:
+          $ref: '#/definitions/entities.Inside2'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.ResponseWrapper'
+        "502":
+          description: Bad Gateway
+          schema:
+            $ref: '#/definitions/entities.ErrorResponseWrapper'
+      summary: get pin information that inside the polygon
+      tags:
+      - InsideInfo
+  /create/inside:
+    post:
+      consumes:
+      - application/json
+      description: Insert inside table  With Polygon ID and Pin ID with User ID from
+        request headers
+      parameters:
+      - description: JWT authorization token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: PolAndPinInfo
+        required: true
+        schema:
+          $ref: '#/definitions/entities.Inside'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.ResponseWrapper'
+        "502":
+          description: Bad Gateway
+          schema:
+            $ref: '#/definitions/entities.ErrorResponseWrapper'
+      summary: Insert inside table  With Polygon ID and Pin ID with User ID
+      tags:
+      - InsideInfo
+  /create/pin:
+    post:
+      consumes:
+      - application/json
+      description: Create Pins with expected request info
+      parameters:
+      - description: JWT authorization token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: Pin_info
+        required: true
+        schema:
+          $ref: '#/definitions/entities.Pin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.ResponseWrapper'
+        "502":
+          description: Bad Gateway
+          schema:
+            $ref: '#/definitions/entities.ErrorResponseWrapper'
+      summary: Create Pin With User ID and Pin information
+      tags:
+      - Pins
+  /create/polygon:
+    post:
+      consumes:
+      - application/json
+      description: Create Polygon with expected request info
+      parameters:
+      - description: JWT authorization token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: Polygon_info
+        required: true
+        schema:
+          $ref: '#/definitions/entities.Polygon'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.ResponseWrapper'
+        "502":
+          description: Bad Gateway
+          schema:
+            $ref: '#/definitions/entities.ErrorResponseWrapper'
+      summary: Create Polygon With User ID and Polygon
+      tags:
+      - Polygons
+  /delete/deleteallpins:
+    delete:
+      consumes:
+      - application/json
+      description: Delete all pins with pin ID and User ID from header
+      parameters:
+      - description: JWT authorization token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.ResponseWrapper'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entities.ErrorResponseWrapper'
+      summary: Delete All Pins With User ID and Pin ID
+      tags:
+      - Pins
+  /delete/onepoint:
+    delete:
+      consumes:
+      - application/json
+      description: Delete spesific Polygon with Polygon ID and User ID from header
+      parameters:
+      - description: JWT authorization token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/entities.DeletePolygonOnePoint1'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.ResponseWrapper'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entities.ErrorResponseWrapper'
+      summary: Delete Polygon one coordinate With User ID and Polygon ID
+      tags:
+      - Polygons
+  /delete/pin:
+    delete:
+      consumes:
+      - application/json
+      description: Delete spesific pin with pin ID and User ID from header
+      parameters:
+      - description: JWT authorization token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: Pin_Id
+        required: true
+        schema:
+          $ref: '#/definitions/entities.DeletePolygonOnePoint'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.ResponseWrapper'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entities.ErrorResponseWrapper'
+      summary: Delete Pin With User ID and Pin ID
+      tags:
+      - Pins
+  /delete/polygon:
+    delete:
+      consumes:
+      - application/json
+      description: Delete spesific Polygon with Polygon ID and User ID from header
+      parameters:
+      - description: JWT authorization token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: Polygon_Id
+        required: true
+        schema:
+          $ref: '#/definitions/entities.DeletePolygonOnePoint'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.ResponseWrapper'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entities.ErrorResponseWrapper'
+      summary: Delete Polygon With User ID and Polygon ID
+      tags:
+      - Polygons
+  /get/pins:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of pins for the specified user ID
+      parameters:
+      - description: JWT authorization token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entities.Pin2'
+            type: array
+        "400":
+          description: Bad Request
+          schema: {}
+      summary: Get array of pins by user ID
+      tags:
+      - Pins
+  /get/polygons:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of polygons for the specified user ID
+      parameters:
+      - description: JWT authorization token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entities.Polygon2'
+            type: array
+        "400":
+          description: Bad Request
+          schema: {}
+      summary: Get polygons by user ID
+      tags:
+      - Polygons
+  /update/pin:
+    put:
+      consumes:
+      - application/json
+      description: Update spesific Pin with Pin infos and User ID from header
+      parameters:
+      - description: JWT authorization token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: Pin_info
+        required: true
+        schema:
+          $ref: '#/definitions/entities.Pin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.ResponseWrapper'
+        "502":
+          description: Bad Gateway
+          schema:
+            $ref: '#/definitions/entities.ErrorResponseWrapper'
+      summary: Update Pin With User ID and Polygon
+      tags:
+      - Pins
+  /update/polygon:
+    put:
+      consumes:
+      - application/json
+      description: Update spesific Polygon with Polygon infos and User ID from header
+      parameters:
+      - description: JWT authorization token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Request body
+        in: body
+        name: Polygon_info
+        required: true
+        schema:
+          $ref: '#/definitions/entities.Polygon'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entities.ResponseWrapper'
+        "502":
+          description: Bad Gateway
+          schema:
+            $ref: '#/definitions/entities.ErrorResponseWrapper'
+      summary: Update Polygon With User ID and Polygon
+      tags:
+      - Polygons
+swagger: "2.0"
